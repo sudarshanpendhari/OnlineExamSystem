@@ -5,6 +5,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/fireba
 
 
 import { getAuth, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import {getFirestore,query, collection, where, getDocs} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js"; 
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -20,11 +21,29 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 //inputs
-
+const db = getFirestore(app);
 // alert("ji");
 const submit = document.getElementById('submit');
 
+async function getUserNameByEmail(email) {
+  try {
+    const q = query(collection(db, "user"), where("email", "==", email));
 
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No user found with the provided email.");
+      return null;
+    } else {
+      const userDoc = querySnapshot.docs[0];
+      const userData = userDoc.data();
+      console.log("User found: ", userData.name);
+      return userData.name;
+    }
+  } catch (e) {
+    console.error("Error getting document:", e.message, e);
+  }
+}
 submit.addEventListener("click", function (event) {
     event.preventDefault();
     const email = document.getElementById('username').value;
@@ -32,11 +51,12 @@ submit.addEventListener("click", function (event) {
     
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+  .then(async (userCredential) => {
     // Signed in 
     const user = userCredential.user;
     // ...
-    navigateToCats(user);
+    const name = await getUserNameByEmail(email);
+    navigateToCats(name);
     alert("success");
     
   })
@@ -47,6 +67,6 @@ submit.addEventListener("click", function (event) {
   });
 });
 
-function navigateToCats(user) {
-  window.location.href = `categories.html?username=${user}`;
+function navigateToCats(name) {
+  window.location.href = `categories.html?uname=${name}`;
 }

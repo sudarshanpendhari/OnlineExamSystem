@@ -1,4 +1,3 @@
-// Import the necessary Firebase functions
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
@@ -24,6 +23,11 @@ let questions = [];
 // Initialize State
 let currentQuestionIndex = 0;
 const questionStates = [];
+
+// Timer variables
+let timerInterval;
+let remainingMinutes =localStorage.getItem('duration'); // Initialize with exam duration in minutes
+let remainingSeconds = 0; // Initialize with 0 seconds
 
 // Load questions from Firestore based on category and test
 async function loadQuestionsFromFirestore(categoryId, testId) {
@@ -55,6 +59,7 @@ async function loadQuestionsFromFirestore(categoryId, testId) {
             generateQuestionNavButtons(); // Generate the navigation buttons based on questions array
             loadQuestion(0); // Load the first question
             updateSidebar(); // Update sidebar button states
+            startTimer(); // Start the timer when the exam begins
         } else {
             console.error("No questions found for this category and test.");
         }
@@ -102,19 +107,134 @@ function loadQuestion(index) {
     updateSidebar();
 }
 
-// Load categoryId and testId from URL
+let fullscreenExitCount = 0;
+
+function openFullscreen() {
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch((err) => {
+            console.error("Error attempting to enable full-screen mode:", err.message);
+        });
+    }
+}
+
+// Detect full-screen exit
+function onFullscreenChange() {
+    if (!document.fullscreenElement) {
+        fullscreenExitCount++;
+
+        if (fullscreenExitCount >= 2) {
+            // Automatically submit exam after two fullscreen exits
+            submitTest();
+        } else {
+            stopExamDueToFullscreenExit();
+        }
+    }
+}
+
+
+// Show the exam start dialog
+function showExamStartDialog() {
+    const dialog = document.getElementById('examStartDialog');
+    dialog.style.display = 'flex';
+}
+
+// Start the exam in full-screen mode
+function startExam() {
+    openFullscreen();
+    document.getElementById('examStartDialog').style.display = 'none';
+    initializeExam();
+}
+
+function initializeExam() {
+    console.log("Exam started");
+}
+
+// Show warning dialog on first fullscreen exit
+function stopExamDueToFullscreenExit() {
+    clearInterval(timerInterval);
+
+    const dialog = document.getElementById('fullscreenWarningDialog');
+    dialog.style.display = 'flex';
+}
+
+// Resume exam when user goes back to fullscreen
+function resumeExam() {
+    openFullscreen();
+    document.getElementById('fullscreenWarningDialog').style.display = 'none';
+    timerInterval = setInterval(updateTimer, 1000);
+    initializeExam();
+}
+
+// Timer functionality
+function startTimer() {
+    timerInterval = setInterval(updateTimer, 1000);
+}
+
+
+function updateTimer() {
+    if (remainingSeconds === 0 && remainingMinutes === 0) {
+        clearInterval(timerInterval); // Stop the timer
+        submitTest(); // Submit the exam automatically
+        return; // Exit the function
+    }
+
+    if (remainingSeconds === 0) {
+        // Move to the previous minute
+        remainingMinutes--;
+        remainingSeconds = 59;
+    } else {
+        // Decrease the seconds
+        remainingSeconds--;
+    }
+
+    document.getElementById('timer').innerText = formatTime(remainingMinutes, remainingSeconds);
+}
+
+function formatTime(minutes, seconds) {
+    return `${padZero(minutes)}:${padZero(seconds)}`;
+}
+
+function padZero(value) {
+    return value < 10 ? `0${value}` : value;
+}
+
+
+// Event listeners
+document.getElementById('startExamButton').addEventListener('click', startExam);
+document.getElementById('resumeExamButton').addEventListener('click', resumeExam);
+document.addEventListener("fullscreenchange", onFullscreenChange);
 document.addEventListener("DOMContentLoaded", () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedCatId = urlParams.get('catId'); // Extract catId from the URL
-    const selectedTestId = urlParams.get('testId'); // Extract testId from the URL
+    if(localStorage.length === 1||localStorage.getItem('catId')===null){
+        const dialog = document.getElementById('localempty');
+        const dialog2 = document.querySelector('exam-dialog-content');
+        document.getElementById('foot').classList.remove('footer');
+        document.getElementById('submit').style.position='revert';
+        document.getElementById('saveandnext').style.position='revert';
+        dialog.style.display = 'flex';
+        dialog2.style.display='none';
+    }else{
+        const dialog = document.getElementById('localempty');
+        dialog.style.display = 'none';
+
+    }
+    document.getElementById('backSubmit').addEventListener('click', () => {
+        window.location.href = "categories.html";
+    });
+    const selectedCatId = localStorage.getItem('catId');
+    const selectedTestId = localStorage.getItem('testId');
+    const cn = localStorage.getItem('catName');
+    const u = localStorage.getItem('user');
 
     loadQuestionsFromFirestore(selectedCatId, selectedTestId);
+    document.getElementById('title').innerText = `${cn}: ${selectedTestId}`;
+    document.getElementById('profilenm').innerText = u;
 
-    // Event Listeners for navigation buttons (moved here to ensure DOM is loaded)
     document.getElementById('saveandnext').addEventListener('click', saveAndNext);
     document.getElementById('mark').addEventListener('click', markForReview);
     document.getElementById('clear').addEventListener('click', clearResponse);
     document.getElementById('submit').addEventListener('click', submitTest);
+
+    showExamStartDialog();
 });
 
 // Save the current answer and move to the next question
@@ -134,7 +254,7 @@ function saveResponse() {
     const selectedOption = document.querySelector('input[name="option"]:checked');
     if (selectedOption) {
         const optionIndex = selectedOption.id.replace('option', '');
-        localStorage.setItem(`question${currentQuestionIndex}`, optionIndex); // Save selected option
+        localStorage.setItem(`question${currentQuestionIndex}`, optionIndex);
         questionStates[currentQuestionIndex] = 'solved';
     }
 }
@@ -145,7 +265,7 @@ function markForReview() {
     const selectedOption = document.querySelector('input[name="option"]:checked');
     if (selectedOption) {
         const optionIndex = selectedOption.id.replace('option', '');
-        localStorage.setItem(`question${currentQuestionIndex}`, optionIndex); // Save selected option
+        localStorage.setItem(`question${currentQuestionIndex}`, optionIndex);
     }
 
     if (currentQuestionIndex < questions.length - 1) {
@@ -175,9 +295,6 @@ function updateSidebar(index = null) {
         });
     } else {
         updateSidebarButton(questionButtons[index], index);
-        if (index !== 0) {
-            updateSidebarButton(questionButtons[index - 1], index - 1);
-        }
     }
 }
 
@@ -186,53 +303,68 @@ function updateSidebarButton(button, index) {
     button.classList.remove('bg-success', 'bg-danger', 'bg-primary', 'bg-warning', 'bg-info', 'bg-light');
     switch (questionStates[index]) {
         case 'notViewed':
-            button.style.backgroundColor = "white"; // White
+            button.style.backgroundColor = "white";
             break;
         case 'viewed':
-            button.style.backgroundColor = "red"; // Yellow
+            button.style.backgroundColor = "red";
             break;
         case 'solved':
-            button.style.backgroundColor = "green"; // Green
+            button.style.backgroundColor = "green";
             break;
         case 'markedForReview':
-            button.style.backgroundColor = "purple"; // Violet
+            button.style.backgroundColor = "purple";
             break;
         default:
-            button.style.backgroundColor = "white"; // Default to light for unknown states
+            button.style.backgroundColor = "white";
     }
 }
+document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+    const dialog = document.getElementById('rightClickDialog');
+    dialog.showModal(); // Show dialog box
+});
 
+// Close dialog on button click
+document.getElementById('closeDialog').addEventListener('click', () => {
+    document.getElementById('rightClickDialog').close(); // Hide dialog box
+});
 // Submit the test and show result
 function submitTest() {
     let correctCount = 0;
+    let incorrectCount = 0;
+    let unansweredCount = 0;
 
     questions.forEach((question, index) => {
         const savedAnswer = localStorage.getItem(`question${index}`);
-        if (savedAnswer && parseInt(savedAnswer) - 1 === question.correctOption) {
-            correctCount++;
+        if (savedAnswer !== null) {
+            if (Number(savedAnswer)-1 === question.correctOption) {
+                correctCount++;
+            } else {
+                incorrectCount++;
+            }
+        } else {
+            unansweredCount++;
         }
     });
 
-    alert(`You scored ${correctCount} out of ${questions.length}`);
-}
-const urlParams = new URLSearchParams(window.location.search);
-const time=urlParams.get('time');
-console.log(time);
-// Timer Functionality
-const timerElement = document.getElementById('time');
-let timeRemaining = time * 60; // 5 minutes
+    const totalScore = correctCount * 2 ; // Assuming +4 for correct, -1 for incorrect
+    const initialDurationInSeconds = parseInt(localStorage.getItem('duration')) * 60; // Initial duration in seconds
+    const timerElement = document.getElementById('timer').innerText.split(":");
+    const remainingMinutes = parseInt(timerElement[0]);
+    const remainingSeconds = parseInt(timerElement[1]);
+    const remainingTimeInSeconds = remainingMinutes * 60 + remainingSeconds;
+    const timeTaken = initialDurationInSeconds - remainingTimeInSeconds;
+    // Save result data to localStorage for result.js to access
+    localStorage.setItem('correctCount', correctCount);
+    localStorage.setItem('incorrectCount', incorrectCount);
+    localStorage.setItem('unansweredCount', unansweredCount);
+    localStorage.setItem('totalScore', totalScore);
+    localStorage.setItem('timeTaken', timeTaken);
 
-function updateTimer() {
-    const minutes = Math.floor(timeRemaining / 60);
-    const seconds = timeRemaining % 60;
-    timerElement.innerText = `00 : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
-
-    if (timeRemaining <= 0) {
-        clearInterval(timerInterval);
-        submitTest();
-    } else {
-        timeRemaining--;
-    }
+    // Redirect to result.html
+    window.location.href = "result.html";
 }
 
-const timerInterval = setInterval(updateTimer, 1000);
+
+
+

@@ -23,19 +23,22 @@ console.log("hi");
 let selectedCatIndex = 0; // Define selectedCatIndex
 let categoryModelList = []; // Define categoryModelList to store category data
 let testList = []; // Array to hold test data
+const urlParams = new URLSearchParams(window.location.search);
 
 // Load categories on document load
 document.addEventListener("DOMContentLoaded", () => {
+    const user = urlParams.get('uname');
+    document.getElementById('uname').innerText = user;
     loadCategories();
 });
-const user=urlParams.get('user');
+
 // Function to load categories from Firestore and render them in the HTML
 async function loadCategories() {
     try {
-        // Select the row container for categories
         const categoryContainer = document.querySelector(".row");
         categoryContainer.innerHTML = ""; // Clear previous content
-
+        const user = urlParams.get('uname');
+        
         // Fetch categories from Firestore
         const querySnapshot = await getDocs(collection(db, "QUIZ"));
         const docList = {};
@@ -58,10 +61,10 @@ async function loadCategories() {
             const catDoc = docList[catId];
 
             if (catDoc) {
-                const { NAME: catName, IMG_LINK: imgLink, NO_OF_TESTS:noOfTests } = catDoc.data();
+                const { NAME: catName, IMG_LINK: imgLink, NO_OF_TESTS: noOfTests } = catDoc.data();
 
                 // Store category data in categoryModelList for later use
-                categoryModelList.push({ id: catId, name: catName, noOfTests: noOfTests }); // Assuming 3 tests for now
+                categoryModelList.push({ id: catId, name: catName, noOfTests: noOfTests }); 
 
                 // Create and append HTML dynamically for each category
                 const categoryCard = document.createElement("div");
@@ -75,29 +78,35 @@ async function loadCategories() {
                                 <div class="progress-bar" style="width: 50%;"></div>
                             </div>
                             <p class="catName">${catName}</p>
-                            <button class="btn take-test-btn" noofTest="${noOfTests}" data-cat-id="${catId}">Take Test</button>
+                            <button class="btn take-test-btn" data-cat-id="${catId}" data-cat-name="${catName}" data-no-of-tests="${noOfTests}">Take Test</button>
                         </div>
                     </div>
                 `;
 
-                // Append the category card to the container
                 categoryContainer.appendChild(categoryCard);
             }
         }
 
         // Attach event listeners to "Take Test" buttons programmatically
-        const testButtons = document.querySelectorAll(".take-test-btn");
-        testButtons.forEach((button) => {
-            const catId = button.getAttribute("data-cat-id"); // Get the associated catId from the button's data attribute
-            const noofTest = button.getAttribute("noofTest");
-            button.addEventListener("click", () => navigateToSets(catId,noofTest));
+        document.querySelectorAll(".take-test-btn").forEach((button) => {
+            button.addEventListener("click", (e) => {
+                const catId = e.target.getAttribute("data-cat-id");
+                const catName = e.target.getAttribute("data-cat-name");
+                const noOfTests = e.target.getAttribute("data-no-of-tests");
+
+                // Save data to local storage
+                if(localStorage.length===0){
+                    localStorage.setItem("user", user);}
+                localStorage.setItem("catId", catId);
+                localStorage.setItem("catName", catName);
+                localStorage.setItem("noOfTests", noOfTests);
+                
+
+                // Redirect to sets.html without query parameters
+                window.location.href = "sets.html";
+            });
         });
     } catch (error) {
         console.error("Error loading categories: ", error);
     }
-}
-
-// Function to navigate to sets page with the selected category ID
-function navigateToSets(catId,noofTest) {
-    window.location.href = `sets.html?catId=${catId}&nooftests=${noofTest}`;
 }

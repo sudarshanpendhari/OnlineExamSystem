@@ -20,21 +20,22 @@ const auth = getAuth(app);
 console.log("hi");
 
 // Global variables
-let selectedCatId = "";
-let not="";
+let selectedCatId = localStorage.getItem("catId") || ""; // Get category ID from local storage
+let not = localStorage.getItem("noOfTests") || "";       // Get number of tests
 let testList = []; // Array to hold the test data
+const user = localStorage.getItem("user") || "";         // Get user from local storage
+const categoryName = localStorage.getItem("catName") || ""; // Get category name from local storage
 
 // Load tests on document load
 document.addEventListener("DOMContentLoaded", () => {
-    // Get the category ID from the URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    selectedCatId = urlParams.get('catId'); // Extract the catId from the URL
-    not=urlParams.get('nooftests');
-    console.log(selectedCatId);
+    // Set the username display from local storage
+    document.getElementById('uname').innerText = user;
+
+    // Check if selectedCatId exists and load tests, otherwise log an error
     if (selectedCatId) {
-        loadTests(selectedCatId,not);
+        loadTests(selectedCatId, not);
     } else {
-        console.error("No category ID found in the URL.");
+        console.error("No category ID found in local storage.");
     }
 });
 
@@ -81,7 +82,7 @@ async function loadTests(catId, nooftests) {
 
                     // Store test data in the testList for later use
                     testList.push({
-                        id: testId, // Test ID
+                        id: testId,
                         duration: duration,
                         questions: testData.QUESTIONS,
                         posmarks: posmarks,
@@ -91,13 +92,16 @@ async function loadTests(catId, nooftests) {
                     // Create and append HTML dynamically for each test
                     const testCard = document.createElement("div");
                     testCard.classList.add("col-md-4");
-
                     testCard.innerHTML = `
                         <div class="card test-card">
                             <div class="card-body">
                                 <h5 class="test-name">${testId}</h5> <!-- Using test ID as name -->
                                 <p class="test-details">Duration: ${duration} mins</p>
-                                <button class="btn btn-primary start-test-btn" duration="${duration}" pm="${posmarks}" nm="${negmarks}" data-test-id="${testId}">Start Test</button>
+                                <button class="btn btn-primary start-test-btn" 
+                                    data-test-id="${testId}" data-duration="${duration}" 
+                                    data-pm="${posmarks}" data-nm="${negmarks}">
+                                    Start Test
+                                </button>
                             </div>
                         </div>
                     `;
@@ -112,10 +116,11 @@ async function loadTests(catId, nooftests) {
         const startTestButtons = document.querySelectorAll(".start-test-btn");
         startTestButtons.forEach((button) => {
             const testId = button.getAttribute("data-test-id");
-            const duration = button.getAttribute("duration");
-            const posmarks = button.getAttribute("pm");
-            const negmarks = button.getAttribute("nm");
-            // Get the associated test ID from the button's data attribute
+            const duration = button.getAttribute("data-duration");
+            const posmarks = button.getAttribute("data-pm");
+            const negmarks = button.getAttribute("data-nm");
+
+            // Add click event to start test
             button.addEventListener("click", () => navigateToTest(testId, duration, posmarks, negmarks));
             console.log(`Attached event listener to: ${testId}`);
         });
@@ -126,5 +131,12 @@ async function loadTests(catId, nooftests) {
 
 // Function to navigate to test page with the selected test ID
 function navigateToTest(testId, duration, posmarks, negmarks) {
-    window.location.href = `testinfo.html?catId=${selectedCatId}&testId=${testId}&duration=${duration}&PM=${posmarks}&NM=${negmarks}`;
+    // Store test data in local storage
+    localStorage.setItem("testId", testId);
+    localStorage.setItem("duration", duration);
+    localStorage.setItem("posMarks", posmarks);
+    localStorage.setItem("negMarks", negmarks);
+
+    // Navigate to testinfo.html
+    window.location.href = "testinfo.html";
 }

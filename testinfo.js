@@ -1,19 +1,27 @@
-// Get the test ID from URL parameters
-const urlParams = new URLSearchParams(window.location.search);
-const selectedCatId = urlParams.get('catId'); // Extract the catId from the URL
-const selectedTestId = urlParams.get('testId'); // Extract the testId from the URL
-const duration=urlParams.get('duration');
-const pm=urlParams.get('PM');
-const nm=urlParams.get('NM');
+// Retrieve values from local storage
+const selectedCatId = localStorage.getItem("catId");
+const selectedTestId = localStorage.getItem("testId");
+const duration = localStorage.getItem("duration");
+const pm = localStorage.getItem("posMarks");
+const nm = localStorage.getItem("negMarks");
+const cn = localStorage.getItem("catName");
+const u = localStorage.getItem("user");
 
-// Back to Tests Button functionality
+// Display profile name and course/test information
+document.getElementById('profilenm').innerText = u;
+document.querySelector(".t12").innerHTML = `${cn}: ${selectedTestId}`;
+document.querySelector(".t17").innerHTML = `${cn}: ${selectedTestId}`;
+
+// Full-screen request function (if needed)
+
+// Event listener for Back to Tests button
 document.getElementById("backtotests").addEventListener("click", () => {
-    // Navigate back to sets.html and send the catId
-    window.location.href = `sets.html?catId=${selectedCatId}`;
+    // Navigate back to the sets page
+    window.location.href = "sets.html";
 });
 
-// Next Button functionality
+// Event listener for Start Exam button
 document.getElementById("next").addEventListener("click", () => {
-    // Navigate to test.html and send both catId and testId
-    window.location.href = `test.html?catId=${selectedCatId}&testId=${selectedTestId}&duration=${duration}&PM=${pm}&NM=${nm}`;
+    // Navigate to the test page
+    window.location.href = "test.html";
 });
