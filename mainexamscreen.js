@@ -135,6 +135,8 @@ function onFullscreenChange() {
 // Show the exam start dialog
 function showExamStartDialog() {
     const dialog = document.getElementById('examStartDialog');
+    
+
     dialog.style.display = 'flex';
 }
 
@@ -354,6 +356,7 @@ function submitTest() {
     const remainingSeconds = parseInt(timerElement[1]);
     const remainingTimeInSeconds = remainingMinutes * 60 + remainingSeconds;
     const timeTaken = initialDurationInSeconds - remainingTimeInSeconds;
+    
     // Save result data to localStorage for result.js to access
     localStorage.setItem('correctCount', correctCount);
     localStorage.setItem('incorrectCount', incorrectCount);

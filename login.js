@@ -45,6 +45,8 @@ async function getUserNameByEmail(email) {
   }
 }
 submit.addEventListener("click", function (event) {
+  localStorage.clear();
+
     event.preventDefault();
     const email = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -56,7 +58,8 @@ submit.addEventListener("click", function (event) {
     const user = userCredential.user;
     // ...
     const name = await getUserNameByEmail(email);
-    navigateToCats(name);
+    localStorage.setItem('user',name);
+    navigateToCats();
     alert("success");
     
   })
@@ -67,6 +70,6 @@ submit.addEventListener("click", function (event) {
   });
 });
 
-function navigateToCats(name) {
-  window.location.href = `categories.html?uname=${name}`;
+function navigateToCats() {
+  window.location.href = `categories.html`;
 }

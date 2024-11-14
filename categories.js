@@ -27,7 +27,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
 // Load categories on document load
 document.addEventListener("DOMContentLoaded", () => {
-    const user = urlParams.get('uname');
+    const user = localStorage.getItem('user');
     document.getElementById('uname').innerText = user;
     loadCategories();
 });
