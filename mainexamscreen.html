@@ -6,8 +6,9 @@
     </title>
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
-    <link rel="stylesheet" href="./mainexamscreen.css" />
-    <script defer type="module" src="mainexamscreen.js"></script>
+    <link rel="stylesheet" href="css/mainexamscreen.css" />
+    <script defer type="module" src="js/mainexamscreen.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
@@ -31,18 +32,18 @@
     </div>
     <!-- Exam End Dialog -->
 
-<dialog id="rightClickDialog">
-    <p id="dialogMessage">Right-click is disabled on this page.</p>
-    <button id="closeDialog">OK</button>
-</dialog>
-<div id="localempty" class="">
-    <div class="loc">
-        <h4>Nothing Here</h4>
-        
-        <p>Go back to Main Page</p>
-        <button id="backSubmit">Submit</button>
+    <dialog id="rightClickDialog">
+        <p id="dialogMessage">Right-click is disabled on this page.</p>
+        <button id="closeDialog">OK</button>
+    </dialog>
+    <div id="localempty" class="">
+        <div class="loc">
+            <h4>Nothing Here</h4>
+
+            <p>Go back to Main Page</p>
+            <button id="backSubmit">Submit</button>
+        </div>
     </div>
-</div>
 
     <div class="container-fluid">
         <div class="row header">
@@ -92,32 +93,32 @@
                         Question No. <span id="qnumber">1</span>
                     </p>
                     <p id="question">
-                        
+
                     </p>
                 </div>
                 <ul class="options">
                     <li>
                         <input id="option1" name="option" type="radio" />
                         <label for="option1" id="option1text">
-                            
+
                         </label>
                     </li>
                     <li>
                         <input id="option2" name="option" type="radio" />
                         <label for="option2" id="option2text">
-                            
+
                         </label>
                     </li>
                     <li>
                         <input id="option3" name="option" type="radio" />
                         <label for="option3" id="option3text">
-                            
+
                         </label>
                     </li>
                     <li>
                         <input id="option4" name="option" type="radio" />
                         <label for="option4" id="option4text">
-                            
+
                         </label>
                     </li>
                 </ul>

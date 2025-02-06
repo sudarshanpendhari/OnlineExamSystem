@@ -4,9 +4,9 @@ import {
   collection,
   getDocs,
   query,
+  where,
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCja31wklmLjFLwa4a2NRCiU8lub-MVofw",
@@ -22,13 +22,12 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// Sample JSON Data for Questions (initially empty)
-let questions = [];
-
 // Initialize State
 let currentQuestionIndex = 0;
-const questionStates = [];
 
+let questions = [];
+questions = JSON.parse(localStorage.getItem("questionsset"));
+let questionStates = [];
 // Timer variables
 let timerInterval;
 let remainingMinutes = localStorage.getItem("duration"); // Initialize with exam duration in minutes
@@ -36,32 +35,10 @@ let remainingSeconds = 0; // Initialize with 0 seconds
 
 // Load questions from Firestore based on category and test
 async function loadQuestionsFromFirestore(categoryId, testId) {
-  questions.length = 0; // Clear the questions array
-  questionStates.length = 0; // Clear the question states array
-
   try {
-    const q = query(
-      collection(db, "Questions"),
-      where("CATEGORY", "==", selectedCatId),
-      where("TEST", "==", selectedTestId)
-    );
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      // Create a question object
-      if (data.CATEGORY === categoryId && data.TEST === testId) {
-        questions.push({
-          question: data.Question,
-          options: [data.A, data.B, data.C, data.D],
-          isMath: data.isMath,
-          correctOption: data.Answer - 1, // Assuming Answer is a one-based index in Firestore
-        });
-        // Initialize question state as 'notViewed'
-        questionStates.push("notViewed");
-      }
+    questions.forEach((q) => {
+      questionStates.push("notViewed");
     });
-
     // Display the first question if available and generate navigation buttons
     if (questions.length > 0) {
       generateQuestionNavButtons(); // Generate the navigation buttons based on questions array

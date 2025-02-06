@@ -4,6 +4,7 @@ import {
   collection,
   getDocs,
   query,
+  where,
 } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // Firebase configuration
@@ -19,30 +20,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+let questions = JSON.parse(localStorage.getItem("questionsset"));
 async function loadQuestionsFromFirestore(categoryId, testId) {
-  const questions = [];
-
   try {
-    const q = query(
-      collection(db, "Questions"),
-      where("CATEGORY", "==", selectedCatId),
-      where("TEST", "==", selectedTestId)
-    );
-
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      if (data.CATEGORY === categoryId && data.TEST === testId) {
-        questions.push({
-          question: data.Question,
-          options: [data.A, data.B, data.C, data.D],
-          correctOption: data.Answer - 1, // Convert to zero-based index
-        });
-      }
-    });
-
     renderQuestions(questions);
   } catch (error) {
     console.error("Error loading questions:", error);
