@@ -64,7 +64,8 @@ body {
     text-align: center;
 }
 .card .card-body img {
-    width: 50px;
+    width: 250px;
+    height: 150px;
     margin-bottom: 10px;
 }
 .card .card-body .progress {

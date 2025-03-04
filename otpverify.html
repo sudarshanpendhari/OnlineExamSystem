@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="fast2sms" content="lnnxirk1FsHQzLbbtkuiKZso1K1i0qAP">
+
+  <title>OTP Verification</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="background-circle blue"></div>
+  <div class="background-circle orange"></div>
+
+  <div class="login-container">
+    <h2>Verify Mobile Number!</h2>
+
+    <label for="Mobile Number">Mobile Number</label>
+    <input type="text" id="phoneNumber" placeholder="Enter Phone No">
+    <button onclick="generateOTP()">Send OTP</button>
+    <label for="password">OTP</label>
+    <input type="text" id="otpInput" placeholder="Enter OTP">
+    <button onclick="verifyOTP()">Verify OTP</button>
+
+    <p id="message"></p>
+    <div>
+      <p id="output" style="background-color: aliceblue;"></p>
+    </div>
+  </div>
+
+  <script>
+    let generatedOTP;
+    const FAST2SMS_URL = "https://www.fast2sms.com/dev/bulkV2";
+    const FAST2SMS_API_KEY = "SH2LxeqYXZ70wco3in4Al9DpdOEmGMNBjQzJWF6gaCt1RvKIb8Byc2DRClKTpgOYHzXVb96ehZ3wniEF"; // Replace with your API key
+
+    function generateOTP() {
+      const phone = document.getElementById("phoneNumber").value.trim();
+      if (phone.length !== 10 || isNaN(phone)) {
+        alert("Enter a valid phone number");
+        return;
+      }
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      sendOtpFast2Sms("+91" + phone, generatedOTP);
+    }
+
+    function sendOtpFast2Sms(phoneNumber, otp) {
+      fetch(FAST2SMS_URL, {
+        method: "POST",
+        headers: {
+          "authorization": FAST2SMS_API_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "route": "otp",
+          "variables_values": otp,
+          "numbers": phoneNumber
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert("OTP sent successfully!");
+        })
+        .catch(error => {
+          alert("Error sending OTP");
+          console.error(error);
+        });
+    }
+
+    function verifyOTP() {
+      const enteredOTP = document.getElementById("otpInput").value.trim();
+      const mobileNumber = document.getElementById("phoneNumber").value.trim(); // Get mobile number
+
+      if (enteredOTP === generatedOTP) {
+        document.getElementById("message").innerText = "OTP Verified!";
+
+        // Send mobile number to Android app
+        if (window.Android && typeof Android.onOtpVerified === "function") {
+          Android.onOtpVerified(mobileNumber);
+        }
+      } else {
+        document.getElementById("message").innerText = "Invalid OTP";
+      }
+    }
+  </script>
+</body>
+
+</html>
