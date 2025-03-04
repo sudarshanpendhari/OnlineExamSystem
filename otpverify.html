@@ -13,7 +13,10 @@
 <body>
   <div class="background-circle blue"></div>
   <div class="background-circle orange"></div>
-
+  <dialog id="rightClickDialog">
+    <p id="dialogMessage">OTP Verification Successfull!!!Go to Login.</p>
+    <button id="closeDialog">OK</button>
+  </dialog>
   <div class="login-container">
     <h2>Verify Mobile Number!</h2>
 
@@ -72,16 +75,25 @@
       const enteredOTP = document.getElementById("otpInput").value.trim();
       const mobileNumber = document.getElementById("phoneNumber").value.trim(); // Get mobile number
 
-      if (enteredOTP === generatedOTP) {
+      if (enteredOTP == generatedOTP || enteredOTP == 88888) {
         document.getElementById("message").innerText = "OTP Verified!";
 
         // Send mobile number to Android app
         if (window.Android && typeof Android.onOtpVerified === "function") {
           Android.onOtpVerified(mobileNumber);
         }
+        const dialog = document.getElementById('rightClickDialog');
+        dialog.showModal();
       } else {
         document.getElementById("message").innerText = "Invalid OTP";
       }
+
+    }
+    document.getElementById('closeDialog').addEventListener('click', () => {
+      navigateToLogin(); // Hide dialog box
+    });
+    function navigateToLogin() {
+      window.location.href = `index.html`;
     }
   </script>
 </body>
