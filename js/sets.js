@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadTests(catId, nooftests) {
   try {
     // Select the container for displaying test sets
-    const testContainer = document.querySelector(".test-row");
+    const testContainer = document.querySelector(".row");
 
     // Check if the testContainer exists
     if (!testContainer) {

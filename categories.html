@@ -15,8 +15,10 @@
 </head>
 
 <body>
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
     <div class="d-flex">
-        <div class="sidebar p-3">
+        <div id="sidebar" class="sidebar p-3">
             <div class="logo mb-4">
                 <img alt="ExamMitra Logo" height="150" src="/img/Exammitra.png" width="150" />
             </div>
@@ -50,8 +52,8 @@
         </div>
         <div class="content flex-grow-1">
             <div class="header d-flex justify-content-between align-items-center">
-                <input placeholder="Search for Categories......" type="text" />
-                <div class="user-info d-flex align-items-center">
+                <h2 id="title">ExamMitra</h2>
+                <div id="uinfo" class="user-info d-flex align-items-center">
                     <i class="fas fa-bell me-3">
                     </i>
                     <img alt="User Profile Picture" height="40"
@@ -77,6 +79,12 @@
         </div>
     </div>
     </div>
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("open");
+        }
+
+    </script>
 </body>
 
 

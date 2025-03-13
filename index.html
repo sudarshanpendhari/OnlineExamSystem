@@ -2,38 +2,164 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css" />
-    <script defer type="module" src="js/login.js"></script>
-    <script src="js/disableInspect.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+</head>
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamMitra - Online Examination System</title>
+  <link rel="stylesheet" href="css/home.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <div class="background-circle blue"></div>
-    <div class="background-circle orange"></div>
-
-    <div class="login-container">
-        <h2>Login Here</h2>
-        <form>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Email or Phone">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password">
-            <input type="submit" id="submit" value="Log In">
-        </form>
-        <div class="social-login">
-            <label>Don't have an account?</label>
-            <button onclick="location.href='register.html'"> Register Here</button>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar">
+      <div class="logo">ExamMitra</div>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#benefits">Benefits</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="get-started-btn">Get Started</button>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Transform Your <span class="highlight">Online Examination</span> Experience</h1>
+        <p>ExamMitra provides a secure, reliable, and user-friendly platform for conducting online examinations at any
+          scale.</p>
+        <div class="cta-buttons">
+          <button class="primary-btn" onclick="location.href='register.html'">Register</button>
+          <button class="secondary-btn" onclick="location.href='login.html'">Login</button>
         </div>
-        <div>
-            <p id="output" style="background-color: aliceblue;"></p>
-        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1484807352052-23338990c6c6" alt="Online Examination">
+      </div>
     </div>
+  </section>
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2>Powerful Features for ExamMitra</h2>
+      <p class="section-desc">ExamMitra comes packed with everything you need to conduct seamless online examinations
+      </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <i class="fas fa-laptop"></i>
+          <h3>Seamless Exam Experience</h3>
 
+          <ul>✅ Full-Screen Exam Mode for distraction-free focus</ul>
+          <ul>✅ Auto-Submit on Timer Expiry – No manual submission needed</ul>
+          <ul>✅ Resume Exam if Full-Screen Mode is Exited</ul>
+
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Advanced Security & Anti-Cheating</h3>
+          <ul>✅ Full-Screen Enforcement – Prevents switching tabs</ul>
+          <ul>✅ Auto Exam Pause on Exit – Resume only in full-screen mode</ul>
+          <ul>✅ Data Integrity & Secure Cloud Storage</ul>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-clock"></i>
+          <h3>Smart Question Navigation
+          </h3>
+          <ul>✅ Question Palette with Live Status Updates</ul>
+          <ul>✅ Mark Questions for Review & Revisit Anytime</ul>
+          <ul>✅ Switch Sections Easily & Stay Organized</ul>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-chart-bar"></i>
+          <h3> Secure & Hassle-Free Login</h3>
+          <ul>✅ OTP-Based Authentication</ul>
+          <ul>✅ Quick & Easy Login with Username & Password</ul>
+          <ul>✅ Anti-Cheating Protection (Developer Options Disabled)</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Benefits Section -->
+  <section id="benefits" class="benefits">
+    <div class="container">
+      <div class="benefits-content">
+        <h2>Why Choose ExamMitra?</h2>
+        <p>Experience the advantages of a modern examination system designed to meet the needs of educational
+          institutions.</p>
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Reduced administrative overhead</span>
+          </div>
+          <div class="benefit-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Instant result generation</span>
+          </div>
+          <div class="benefit-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Flexible scheduling options</span>
+          </div>
+          <div class="benefit-item">
+            <i class="fas fa-check-circle"></i>
+            <span>Comprehensive question bank</span>
+          </div>
+        </div>
+      </div>
+      <div class="benefits-image">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Student Benefits">
+      </div>
+    </div>
+  </section>
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <h2>Get in Touch</h2>
+      <p>Have questions about ExamMitra? We're here to help!</p>
+      <button class="contact-us-btn " onclick="window.open('https://forms.gle/LcpTmtKT6ZsHCiQm7')">
+        Contact Us
+      </button>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>ExamMitra</h3>
+          <p>Transforming online examination experiences with secure and reliable solutions.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#benefits">Benefits</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <p>Email: techxcelsp@gmail.com</p>
+          <p>Phone: +91 8788246406</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 ExamMitra. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  <script src="home.js"></script>
 </body>
 
 </html>
