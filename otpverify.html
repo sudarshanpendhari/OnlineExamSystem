@@ -36,6 +36,8 @@
   </div>
 
   <script>
+
+    window.onload = navigateToLogin();
     let generatedOTP;
     const FAST2SMS_URL = "https://www.fast2sms.com/dev/bulkV2";
     const FAST2SMS_API_KEY = "SH2LxeqYXZ70wco3in4Al9DpdOEmGMNBjQzJWF6gaCt1RvKIb8Byc2DRClKTpgOYHzXVb96ehZ3wniEF"; // Replace with your API key
@@ -95,7 +97,7 @@
       navigateToLogin(); // Hide dialog box
     });
     function navigateToLogin() {
-      window.location.href = `index.html`;
+      window.location.href = `login.html`;
     }
   </script>
 </body>
