@@ -124,7 +124,7 @@ submit.addEventListener("click", async function (event) {
     .then((userCredential) => {
       // Signed up successfully
       const user = userCredential.user;
-      alert("Creating account...");
+
       // Call addUser only after successful authentication
       addUser(collegeName, email, name);
       incrementUserCount();
