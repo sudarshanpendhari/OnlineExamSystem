@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer type="module" src="js/login.js"></script>
+    <script src="js/disableInspect.js"></script>
+
+</head>
+
+<body>
+    <div class="background-circle blue"></div>
+    <div class="background-circle orange"></div>
+
+    <div class="login-container">
+        <h2>Login Here</h2>
+        <form>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Email or Phone">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+            <input type="submit" id="submit" value="Log In">
+        </form>
+        <div class="social-login">
+            <label>Don't have an account?</label>
+            <button onclick="location.href='register.html'"> Register Here</button>
+        </div>
+        <div>
+            <p id="output" style="background-color: aliceblue;"></p>
+        </div>
+    </div>
+
+</body>
+
+</html>
