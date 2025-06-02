@@ -19,45 +19,45 @@
     <!-- Sidebar Toggle Button -->
     <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
 
-    <div class="container-fluid">
-        <div class="d-flex">
-            <!-- Sidebar -->
-            <div id="sidebar" class="sidebar">
-                <div class="logo mb-4">
-                    <img alt="ExamMitra Logo" height="150" src="img/Exammitra.png" width="150" />
-                </div>
-                <a class="active" href="#dashboard">Dashboard</a>
-                <a href="#mhtcet">Study for MHT-CET</a>
-                <a href="#gate">Study for GATE</a>
-                <a href="#">ExamMitra Social</a>
 
-                <div class="help mt-4">
-                    <a href="#">Help</a>
-                    <a href="#">Settings</a>
-                    <a href="#">Messages</a>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <div class="logo mb-4">
+                <img alt="ExamMitra Logo" height="150" src="img/Exammitra.png" width="150" />
+            </div>
+            <a class="active" href="#dashboard">Dashboard</a>
+            <a href="#mhtcet">Study for MHT-CET</a>
+            <a href="#gate">Study for GATE</a>
+            <a href="#">ExamMitra Social</a>
+
+            <div class="help mt-4">
+                <a href="#">Help</a>
+                <a href="#">Settings</a>
+                <a href="#">Messages</a>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div id="content" class="content">
+            <div class="header d-flex justify-content-between align-items-center">
+                <h2 id="title"> ExamMitra</h2>
+                <div class="user-info d-flex align-items-center">
+                    <i class="fas fa-bell me-3"></i>
+                    <img alt="User Profile Picture" height="40"
+                        src="https://storage.googleapis.com/a1aa/image/2gSUHVeIvFwfxU7jnSk7SBBBl5rC6rzDjNHSkL3yPJMFQZjTA.jpg"
+                        width="40" />
+                    <span id="uname">Admin</span>
                 </div>
             </div>
-            <!-- Main Content -->
-            <div id="content" class="content">
-                <div class="header d-flex justify-content-between align-items-center">
-                    <h2 id="title"> ExamMitra</h2>
-                    <div class="user-info d-flex align-items-center">
-                        <i class="fas fa-bell me-3"></i>
-                        <img alt="User Profile Picture" height="40"
-                            src="https://storage.googleapis.com/a1aa/image/2gSUHVeIvFwfxU7jnSk7SBBBl5rC6rzDjNHSkL3yPJMFQZjTA.jpg"
-                            width="40" />
-                        <span id="uname">Admin</span>
-                    </div>
-                </div>
 
-                <div class="mt-4">
-                    <div class="section-title">Sets</div>
-                    <div class="row">
-                        <div class="col-md-3"></div>
-                    </div>
+            <div class="mt-4">
+                <div class="section-title">Sets</div>
+                <div class="row">
+                    <div class="col-md-3"></div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <script type="module" src="sets.js"></script> <!-- Make sure this points to your sets.js file -->
     <script>

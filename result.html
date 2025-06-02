@@ -5,11 +5,19 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/result.css" />
-  <script defer type="module" src="js/result.js"></script>
-  <script src="js/disableInspect.js"></script>
+  <script defer type="module" src="js/result.js">
+
+  </script>
+  <!-- <script src="js/disableInspect.js"></script> -->
 </head>
 
-<body>
+<body style="border: 100px solid rgb(3, 5, 18);
+background-color: rgb(205, 232, 221);
+  padding: 30px;
+  margin: 0;
+  min-height: 100vh;
+  box-sizing: border-box;
+">
   <div id="localempty" class="">
     <div class="loc">
       <h4>Nothing Here</h4>
@@ -30,9 +38,7 @@
     </p>
     <div class="row">
       <div class="col-md-4 stat">
-        <img alt="Green check icon" height="50"
-          src="https://storage.googleapis.com/a1aa/image/TCkz5jQDhy54A9v6f0JOeLdEONmEU1QPGjx9CXfBzHuIZBeOB.jpg"
-          width="50" />
+        <img alt="Green check icon" height="50" src="img/correct.png" width="50" />
         <div>
           <h4 id="correct">
             4
@@ -43,9 +49,7 @@
         </div>
       </div>
       <div class="col-md-4 stat">
-        <img alt="Red cross icon" height="50"
-          src="https://storage.googleapis.com/a1aa/image/iWZYG1HbSpolAFRq84DEbmLo1nYWn5Yf2tUWwnbdfKslsAvTA.jpg"
-          width="50" />
+        <img alt="Red cross icon" height="50" src="img/wrong.png" width="50" />
         <div>
           <h4 id="inc">
             5
@@ -56,9 +60,7 @@
         </div>
       </div>
       <div class="col-md-4 stat">
-        <img alt="Red cross icon" height="50"
-          src="https://storage.googleapis.com/a1aa/image/iWZYG1HbSpolAFRq84DEbmLo1nYWn5Yf2tUWwnbdfKslsAvTA.jpg"
-          width="50" />
+        <img alt="Red cross icon" height="50" src="img/notattempted.png" width="50" />
         <div>
           <h4 id="notans">
             5
@@ -69,9 +71,7 @@
         </div>
       </div>
       <div class="col-md-4 stat">
-        <img alt="Score icon" height="50"
-          src="https://storage.googleapis.com/a1aa/image/5KdHqTNtB5arKt92yjqveznHlGYkKJSeUMjJJKonnIkmsAvTA.jpg"
-          width="50" />
+        <img alt="Score icon" height="50" src="img/posnegscore.jpg" width="50" />
         <div>
           <h4 id="posneg">
             5.00
@@ -84,9 +84,7 @@
 
 
       <div class="col-md-4 stat">
-        <img alt="Score icon" height="50"
-          src="https://storage.googleapis.com/a1aa/image/5KdHqTNtB5arKt92yjqveznHlGYkKJSeUMjJJKonnIkmsAvTA.jpg"
-          width="50" />
+        <img alt="Score icon" height="50" src="img/score.png" width="50" />
         <div>
           <h4 id="score">
             5.00
@@ -98,9 +96,7 @@
       </div>
 
       <div class="col-md-4 stat">
-        <img alt="Time icon" height="50"
-          src="https://storage.googleapis.com/a1aa/image/umAmQQUy504UF5eSABFooomgz6SYe9xnzGZO9KZ5IC0gsAvTA.jpg"
-          width="50" />
+        <img alt="Time icon" height="50" src="img/time.png" width="50" />
         <div>
           <h4 id="timereq">
             0:27:41
@@ -119,8 +115,11 @@
         Check Answers
       </button>
     </div>
-
+    <div class="mt-3"><button class="btn btn-primary " id="mvtodash">
+        Go to Sets
+      </button></div>
   </div>
+
 </body>
 
 </html>

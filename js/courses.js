@@ -199,7 +199,8 @@ async function loadCourses() {
         localStorage.setItem("CourseName", CourseName);
 
         // Redirect to sets.html without query parameters
-        window.location.href = "categories.html";
+        // Open categories.html in a new tab
+        const newTab = window.open("categories.html", "_blank");
       });
     });
   } catch (error) {
