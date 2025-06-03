@@ -11,7 +11,7 @@
     <!-- Firebase SDKs -->
     <link rel="stylesheet" href="css/categories.css">
     <script defer type="module" src="js/courses.js"></script>
-    <!-- <script src="js/disableInspect.js"></script> -->
+    <script src="js/disableInspect.js"></script>
 </head>
 
 <body>
@@ -26,14 +26,14 @@
                 <img alt="ExamMitra Logo" height="150" src="img/Exammitra.png" width="150" />
             </div>
             <a class="active" href="#dashboard">Dashboard</a>
-            <a href="#mhtcet">Study for MHT-CET</a>
-            <a href="#gate">Study for GATE</a>
+            <a  href="javascript:void(0);" onclick="openCoursesPage()">Go to Courses</a>
+            <!-- <a  href="javascript:void(0);" onclick="logout()">Log Out</a> -->
             <a href="#">ExamMitra Social</a>
 
-            <div class="help mt-4">
-                <a href="#">Help</a>
-                <a href="#">Settings</a>
-                <a href="#">Messages</a>
+             <div class="help mt-4">
+                <a href="javascript:void(0);" onclick="openmainpage()">Main Page </a>
+                <a href="javascript:void(0);" onclick="opencontactpage()">Message US</a>
+               
             </div>
         </div>
 
@@ -61,6 +61,15 @@
     </div>
 
     <script>
+        function openCoursesPage() {
+            window.location.href = "courses.html";
+        }
+        function openmainpage() {
+            window.location.href = "https://sudarshanpendhari.github.io/OnlineExamSystem/";
+        }
+        function opencontactpage() {
+            window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfzNqjWiAcTgHKZcIw5ku9MhOhFPB46HruXBAiMu5Hh1R9ErQ/viewform";
+        }
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const content = document.getElementById("content");
