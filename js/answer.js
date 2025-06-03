@@ -35,7 +35,7 @@ function renderQuestions(questions) {
     let label = "";
 
     // Determine label based on user selection
-    if (selectedOption === null) {
+    if (selectedOption === null||selectedOption===undefined) {
       label = '<span class="label unattempted">Unattempted</span>';
     } else if (Number(selectedOption) - 1 === correctOptionIndex) {
       label = '<span class="label correct-label">Correct</span>';
@@ -46,8 +46,10 @@ function renderQuestions(questions) {
     const questionHTML = `
             <div class="question-item">
                 <p><strong>${index + 1}. ${
-      question.question
-    }</strong> ${label}</p>
+  question.isMath === 2
+    ? `<img src="${question.question}" alt="Question Image" class="question-img">`
+    : question.question
+}</strong> ${label}</p>
                 ${question.options
                   .map(
                     (option, i) => `
@@ -62,7 +64,7 @@ function renderQuestions(questions) {
                 `
                   )
                   .join("")}
-            </div>
+            </div><hr class="question-divider">
         `;
     questionContainer.insertAdjacentHTML("beforeend", questionHTML);
 

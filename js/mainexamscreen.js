@@ -98,7 +98,8 @@ function loadQuestion(index) {
     questionStates[index] === "solved" ||
     questionStates[index] === "markedForReview"
   ) {
-    const savedAnswer = localStorage.getItem(`question${index}`);
+    const answerList = JSON.parse(localStorage.getItem("questionAnswerList")) || [];
+  const savedAnswer = answerList[index];
     if (savedAnswer)
       document.getElementById(`option${savedAnswer}`).checked = true;
   }
@@ -248,7 +249,7 @@ function saveAndNext() {
   if (currentQuestionIndex < questions.length - 1) {
     loadQuestion(currentQuestionIndex + 1);
   } else {
-    alert("Going to question 1");
+    // alert("Going to question 1");
     loadQuestion(0);
   }
 }
