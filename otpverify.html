@@ -38,7 +38,7 @@
 
   <script>
 
-    window.onload = navigateToLogin();
+    //window.onload = navigateToLogin();
     let generatedOTP;
     const FAST2SMS_URL = "https://www.fast2sms.com/dev/bulkV2";
     const FAST2SMS_API_KEY = "SH2LxeqYXZ70wco3in4Al9DpdOEmGMNBjQzJWF6gaCt1RvKIb8Byc2DRClKTpgOYHzXVb96ehZ3wniEF"; // Replace with your API key
@@ -50,31 +50,35 @@
         return;
       }
       generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      sendOtpFast2Sms("+91" + phone, generatedOTP);
+      sendOtpFast2Sms( phone, generatedOTP);
     }
 
     function sendOtpFast2Sms(phoneNumber, otp) {
-      fetch(FAST2SMS_URL, {
-        method: "POST",
-        headers: {
-          "authorization": FAST2SMS_API_KEY,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "route": "otp",
-          "variables_values": otp,
-          "numbers": phoneNumber
-        })
-      })
-        .then(response => response.json())
-        .then(data => {
-          alert("OTP sent successfully!");
-        })
-        .catch(error => {
-          alert("Error sending OTP");
-          console.error(error);
-        });
-    }
+  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+  const targetUrl = "https://www.fast2sms.com/dev/bulkV2";
+
+  fetch(proxyUrl + targetUrl, {
+    method: "POST",
+    headers: {
+      "authorization": FAST2SMS_API_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "route": "otp",
+      "variables_values": otp,
+      "numbers": phoneNumber
+    })
+  })
+    .then(response => response.json())
+    .then(data => {
+      alert("OTP sent successfully!");
+      console.log(data);
+    })
+    .catch(error => {
+      alert("Error sending OTP");
+      console.error(error);
+    });
+}
 
     function verifyOTP() {
       const enteredOTP = document.getElementById("otpInput").value.trim();
